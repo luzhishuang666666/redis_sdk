@@ -10,6 +10,7 @@ func (db *RedisDB) Set(key string, value string) error {
 	err := db.client.Set(key, value, 0).Err()
 	if err != nil {
 		panic(err)
+		return err
 	}
 	return err
 }
@@ -19,6 +20,7 @@ func (db *RedisDB) SetByExpiration(key string, value string, expiration time.Dur
 	err := db.client.Set(key, value, expiration).Err()
 	if err != nil {
 		panic(err)
+		return err
 	}
 	return err
 }
@@ -29,6 +31,7 @@ func (db *RedisDB) Get(key string) (string, error) {
 
 	if err != nil {
 		panic(err)
+		return "", err
 	}
 
 	return val, err
@@ -40,6 +43,7 @@ func (db *RedisDB) GetSet(key string, newValue string) (string, error) {
 
 	if err != nil {
 		panic(err)
+		return "", err
 	}
 	return oldVal, err
 }
@@ -49,6 +53,7 @@ func (db *RedisDB) SetNX(key string, value string) error {
 	err := db.client.SetNX(key, value, 0).Err()
 	if err != nil {
 		panic(err)
+		return err
 	}
 	return err
 }
@@ -58,6 +63,7 @@ func (db *RedisDB) SetNXByExpiration(key string, value string, expiration time.D
 	err := db.client.SetNX(key, value, expiration).Err()
 	if err != nil {
 		panic(err)
+		return err
 	}
 	return err
 }
@@ -67,6 +73,7 @@ func (db *RedisDB) MGet(keys ...string) ([]string, error) {
 	vals, err := db.client.MGet(keys...).Result()
 	if err != nil {
 		panic(err)
+		return nil, err
 	}
 	strVals := make([]string, len(vals))
 	for i, v := range vals {
@@ -91,6 +98,7 @@ func (db *RedisDB) MSet(keyValues ...string) error {
 	_, err := db.client.MSet(kvs).Result()
 	if err != nil {
 		panic(err)
+		return err
 	}
 	return err
 }
@@ -100,6 +108,7 @@ func (db *RedisDB) Incr(key string) (int64, error) {
 	val, err := db.client.Incr(key).Result()
 	if err != nil {
 		panic(err)
+		return 0, err
 	}
 	return val, err
 }
@@ -109,6 +118,7 @@ func (db *RedisDB) IncrBy(key string, by int64) (int64, error) {
 	val, err := db.client.IncrBy(key, by).Result()
 	if err != nil {
 		panic(err)
+		return 0, err
 	}
 	return val, err
 }
@@ -118,6 +128,7 @@ func (db *RedisDB) Decr(key string) (int64, error) {
 	val, err := db.client.Decr(key).Result()
 	if err != nil {
 		panic(err)
+		return 0, err
 	}
 
 	return val, err
@@ -128,6 +139,7 @@ func (db *RedisDB) DecByr(key string, by int64) (int64, error) {
 	val, err := db.client.DecrBy(key, by).Result()
 	if err != nil {
 		panic(err)
+		return 0, err
 	}
 
 	return val, err
@@ -138,6 +150,7 @@ func (db *RedisDB) Del(key ...string) error {
 	err := db.client.Del(key...).Err()
 	if err != nil {
 		panic(err)
+		return err
 	}
 
 	return err
@@ -148,6 +161,7 @@ func (db *RedisDB) Expire(key string, sec int) error {
 	err := db.Expire(key, sec)
 	if err != nil {
 		panic(err)
+		return err
 	}
 
 	return err
